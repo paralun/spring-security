@@ -2,7 +2,7 @@ package com.paralun.app.service;
 
 import com.paralun.app.dao.UserDao;
 import com.paralun.app.model.UserRole;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service("customUserDetailsService")
+@Service("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
     
     @Autowired
@@ -32,9 +32,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
     
     private List<GrantedAuthority> getGrantedAuthorities(com.paralun.app.model.User user) {
-        List<GrantedAuthority> authoritys = new VirtualFlow.ArrayLinkedList<>();
+        List<GrantedAuthority> authoritys = new ArrayList<>();
         for(UserRole role : user.getRoles()) {
-            authoritys.add(new SimpleGrantedAuthority("ROLE_" + role.getType()));
+            authoritys.add(new SimpleGrantedAuthority(role.getType()));
         }
         
         return authoritys;
