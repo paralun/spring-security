@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository("persistentLoginRepo")
 public interface PersistentLoginRepo extends CrudRepository<PersistentLogin, String>{
     
+    PersistentLogin findByUsername(String username);
 }
