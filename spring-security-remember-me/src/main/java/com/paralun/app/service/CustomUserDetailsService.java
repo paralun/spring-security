@@ -34,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private List<GrantedAuthority> getGrantedAuthorities(com.paralun.app.model.User user) {
         List<GrantedAuthority> authoritys = new ArrayList<>();
         for(UserRole role : user.getRoles()) {
-            authoritys.add(new SimpleGrantedAuthority(role.getType()));
+            authoritys.add(new SimpleGrantedAuthority("ROLE_" + role.getType()));
         }
         
         return authoritys;
