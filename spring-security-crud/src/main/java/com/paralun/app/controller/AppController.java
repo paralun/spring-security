@@ -61,18 +61,18 @@ public class AppController {
     }
     
     @PostMapping(value = "/newuser")
-    public String saveUser(@Valid User user, BindingResult result,
-            ModelMap model) {
+    public String saveUser(@Valid User user, BindingResult result, ModelMap model) {
 
         if (result.hasErrors()) {
             return "registration";
         }
         
-//        if (!userService.isUserSSOUnique(user.getId(), user.getSsoId())) {
-//            FieldError ssoError = new FieldError("user", "ssoId", messageSource.getMessage("non.unique.ssoId", new String[]{user.getUsername()}, Locale.getDefault()));
-//            result.addError(ssoError);
-//            return "registration";
-//        }
+        User user1 = userRepo.findByUsername(user.getUsername());
+        if (user1 != null) {
+            FieldError ssoError = new FieldError("user", "username", messageSource.getMessage("non.unique.username", new String[]{user.getUsername()}, Locale.getDefault()));
+            result.addError(ssoError);
+            return "registration";
+        }
 
         userRepo.save(user);
 
@@ -82,18 +82,18 @@ public class AppController {
         return "registrationsuccess";
     }
     
-    @GetMapping(value = "/edit-user-{username}")
-    public String editUser(@PathVariable String username, ModelMap model) {
-        User user = userRepo.findByUsername(username);
+    @GetMapping(value = "/edit/{id}")
+    public String editUser(@PathVariable Integer id, ModelMap model) {
+        User user = userRepo.findOne(id);
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
         model.addAttribute("loggedinuser", getPrincipal());
         return "registration";
     }
     
-    @PostMapping(value = "/edit-user-{username}")
+    @PostMapping(value = "/edit/{id}")
     public String updateUser(@Valid User user, BindingResult result,
-            ModelMap model, @PathVariable String username) {
+            ModelMap model, @PathVariable Integer id) {
 
         if (result.hasErrors()) {
             return "registration";
@@ -106,8 +106,9 @@ public class AppController {
         return "registrationsuccess";
     }
     
-    @GetMapping(value = "/delete-user-{username}")
-    public String deleteUser(@PathVariable String username) {
+    @GetMapping(value = "/delete/{id}")
+    public String deleteUser(@PathVariable Integer id) {
+        userRepo.delete(id);
         return "redirect:/list";
     }
     

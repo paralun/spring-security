@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "t_users")
@@ -22,21 +23,30 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
+    @NotEmpty
     @Column(name = "username", unique = true, nullable = false)
     private String username;
     
+    @NotEmpty
     @Column(name = "password", nullable = false)
     private String password;
     
+    @NotEmpty
     @Column(name = "first_name", nullable = false)
     private String firstName;
     
+    @NotEmpty
     @Column(name = "last_name")
     private String lastName;
+    
+    @NotEmpty
+    @Column(name = "email", nullable = false)
+    private String email;
     
     @Column(name = "active", nullable = false)
     private boolean active;
     
+    @NotEmpty
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<UserRole> roles = new HashSet<>();
@@ -81,11 +91,19 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public boolean getActive() {
         return active;
     }
 
-    public void setState(boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 

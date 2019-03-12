@@ -37,10 +37,10 @@ public class JpaConfiguration {
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
-        config.setDriverClassName(env.getProperty("jdbc.driver"));
-        config.setJdbcUrl(env.getProperty("jdbc.url"));
-        config.setUsername(env.getProperty("jdbc.username"));
-        config.setPassword(env.getProperty("jdbc.password"));
+        config.setDriverClassName("org.postgresql.Driver");
+        config.setJdbcUrl("jdbc:postgresql://localhost:5432/latihan4");
+        config.setUsername("latihan4");
+        config.setPassword("latihan4");
         config.setMaximumPoolSize(10);
         return new HikariDataSource(config);
     }
