@@ -2,6 +2,7 @@ package com.paralun.app.config;
 
 import com.paralun.app.util.RoleToUserConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.view.JstlView;
 public class AppConfiguration extends WebMvcConfigurerAdapter {
     
     @Autowired
+    @Qualifier("roleToUserConverter")
     RoleToUserConverter roleToUserConverter;
 
     @Override

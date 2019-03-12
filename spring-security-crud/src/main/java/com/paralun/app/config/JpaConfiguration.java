@@ -2,6 +2,7 @@ package com.paralun.app.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import java.util.Properties;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,7 @@ public class JpaConfiguration {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setDataSource(dataSource());
         factory.setJpaVendorAdapter(vendorAdapter());
+        factory.setJpaProperties(additionalProperties());
         factory.setPackagesToScan("com.paralun.app.model");
         return factory;
     }
@@ -52,6 +54,13 @@ public class JpaConfiguration {
         adapter.setGenerateDdl(true);
         adapter.setShowSql(true);
         return adapter;
+    }
+    
+    private Properties additionalProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto", "create");
+        properties.setProperty("hibernate.jdbc.lob.non_contextual_creation", "true");
+        return properties;
     }
     
     @Bean
