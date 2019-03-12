@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class RoleToUserConverter implements Converter<Object, UserRole>{
     
     @Autowired
-    @Qualifier("userRepo")
+    @Qualifier("userRoleRepo")
     UserRoleRepo roleRepo;
 
     @Override
