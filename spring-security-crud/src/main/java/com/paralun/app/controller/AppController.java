@@ -83,7 +83,7 @@ public class AppController {
     }
     
     @GetMapping(value = "/edit/{id}")
-    public String editUser(@PathVariable Integer id, ModelMap model) {
+    public String editUser(@PathVariable String id, ModelMap model) {
         User user = userRepo.findOne(id);
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
@@ -107,7 +107,7 @@ public class AppController {
     }
     
     @GetMapping(value = "/delete/{id}")
-    public String deleteUser(@PathVariable Integer id) {
+    public String deleteUser(@PathVariable String id) {
         userRepo.delete(id);
         return "redirect:/list";
     }

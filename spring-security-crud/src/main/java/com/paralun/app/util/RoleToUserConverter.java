@@ -14,8 +14,8 @@ public class RoleToUserConverter implements Converter<Object, UserRole>{
 
     @Override
     public UserRole convert(Object s) {
-        Integer id =  Integer.parseInt((String) s);
-        UserRole role = roleRepo.findOne(id);
+        String uuid = (String) s;
+        UserRole role = roleRepo.findOne(uuid);
         return role;
     }
     

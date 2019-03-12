@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository("userRoleRepo")
-public interface UserRoleRepo extends CrudRepository<UserRole, Integer>{
+public interface UserRoleRepo extends CrudRepository<UserRole, String>{
     
 }
