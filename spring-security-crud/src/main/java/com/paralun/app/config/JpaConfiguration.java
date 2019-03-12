@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.paralun.repo", entityManagerFactoryRef = "factoryBean")
+@EnableJpaRepositories(basePackages = "com.paralun.app.repo", entityManagerFactoryRef = "factoryBean")
 public class JpaConfiguration {
     
     @Autowired
