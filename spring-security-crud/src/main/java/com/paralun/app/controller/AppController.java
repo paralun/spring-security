@@ -41,7 +41,7 @@ public class AppController {
 
     @Autowired
     AuthenticationTrustResolver trustResolver;
-    
+
     @GetMapping(value = {"/", "/list"})
     public String listUsers(ModelMap model) {
 
@@ -50,7 +50,7 @@ public class AppController {
         model.addAttribute("loggedinuser", getPrincipal());
         return "userslist";
     }
-    
+
     @GetMapping(value = "/newuser")
     public String newUser(ModelMap model) {
         User user = new User();
@@ -59,14 +59,14 @@ public class AppController {
         model.addAttribute("loggedinuser", getPrincipal());
         return "registration";
     }
-    
+
     @PostMapping(value = "/newuser")
     public String saveUser(@Valid User user, BindingResult result, ModelMap model) {
 
         if (result.hasErrors()) {
             return "registration";
         }
-        
+
         User user1 = userRepo.findByUsername(user.getUsername());
         if (user1 != null) {
             FieldError ssoError = new FieldError("user", "username", messageSource.getMessage("non.unique.username", new String[]{user.getUsername()}, Locale.getDefault()));
@@ -81,7 +81,7 @@ public class AppController {
         //return "success";
         return "registrationsuccess";
     }
-    
+
     @GetMapping(value = "/edit/{id}")
     public String editUser(@PathVariable String id, ModelMap model) {
         User user = userRepo.findOne(id);
@@ -90,41 +90,40 @@ public class AppController {
         model.addAttribute("loggedinuser", getPrincipal());
         return "registration";
     }
-    
+
     @PostMapping(value = "/edit")
     public String updateUser(@Valid User user, BindingResult result, ModelMap model) {
-
-        System.out.println("METHOD DI PANGGIL");
         if (result.hasErrors()) {
+            model.addAttribute("user", new User());
+            model.addAttribute("edit", false);
+            model.addAttribute("loggedinuser", getPrincipal());
             return "registration";
         }
-        
+
         userRepo.save(user);
-        
-        System.out.println("DATA DI UPDATE");
 
         model.addAttribute("success", "User " + user.getFirstName() + " " + user.getLastName() + " updated successfully");
         model.addAttribute("loggedinuser", getPrincipal());
         return "registrationsuccess";
     }
-    
+
     @GetMapping(value = "/delete/{id}")
     public String deleteUser(@PathVariable String id) {
         userRepo.delete(id);
         return "redirect:/list";
     }
-    
+
     @ModelAttribute("roles")
     public Iterable<UserRole> initializeProfiles() {
         return roleRepo.findAll();
     }
-    
+
     @GetMapping(value = "/Access_Denied")
     public String accessDeniedPage(ModelMap model) {
         model.addAttribute("loggedinuser", getPrincipal());
         return "accessDenied";
     }
-    
+
     @GetMapping(value = "/login")
     public String loginPage() {
         if (isCurrentAuthenticationAnonymous()) {
@@ -133,7 +132,7 @@ public class AppController {
             return "redirect:/list";
         }
     }
-    
+
     @GetMapping(value = "/logout")
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -144,7 +143,7 @@ public class AppController {
         }
         return "redirect:/login?logout";
     }
-    
+
     private String getPrincipal() {
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

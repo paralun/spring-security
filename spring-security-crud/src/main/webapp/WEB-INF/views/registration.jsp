@@ -58,7 +58,7 @@
                         <div class="col-md-7">
                             <c:choose>
                                 <c:when test="${edit}">
-                                    <form:input type="text" path="username" id="username" class="form-control input-sm" disabled="true"/>
+                                    <form:input type="text" path="username" id="username" class="form-control input-sm" readonly="true"/>
                                 </c:when>
                                 <c:otherwise>
                                     <form:input type="text" path="username" id="username" class="form-control input-sm" />
