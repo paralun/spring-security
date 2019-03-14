@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
@@ -17,11 +19,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private AccessDeniedHandler accessDeniedHandler;
 
     @Override
+    @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         auth.inMemoryAuthentication()
-                .withUser("user").password("user123").roles("USER")
+                .withUser("user").password(encoder.encode("user123")).roles("USER")
                 .and()
-                .withUser("admin").password("admin123").roles("ADMIN");
+                .withUser("admin").password(encoder.encode("admin123")).roles("ADMIN");
     }
 
     @Override
@@ -31,11 +35,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/home", "/about").permitAll()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("USER")
-                .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").permitAll()
+                .formLogin().loginPage("/login")
                 .and()
-                .logout().permitAll()
+                .logout()
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
@@ -43,6 +46,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "webjars/**");
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/webjars/**");
     }
 }
