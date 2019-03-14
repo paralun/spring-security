@@ -17,7 +17,15 @@
             <%@include file="authheader.jsp" %>
 
             <div class="well lead">User Registration Form</div>
-            <form:form method="POST" modelAttribute="user" class="form-horizontal">
+            <c:choose>
+                <c:when test="${edit}">
+                    <c:url var="urlAction" value="/edit" />
+                </c:when>
+                <c:otherwise>
+                    <c:url var="urlAction" value="/newuser" />
+                </c:otherwise>
+            </c:choose>
+            <form:form action="${urlAction}" method="POST" modelAttribute="user" class="form-horizontal">
                 <form:input type="hidden" path="id" id="id"/>
 
                 <div class="row">

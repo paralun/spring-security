@@ -91,9 +91,8 @@ public class AppController {
         return "registration";
     }
     
-    @PostMapping(value = "/edit/{id}")
-    public String updateUser(@Valid User user, BindingResult result,
-            ModelMap model, @PathVariable Integer id) {
+    @PostMapping(value = "/edit")
+    public String updateUser(@Valid User user, BindingResult result, ModelMap model) {
 
         if (result.hasErrors()) {
             return "registration";
