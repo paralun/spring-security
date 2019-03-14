@@ -94,11 +94,14 @@ public class AppController {
     @PostMapping(value = "/edit")
     public String updateUser(@Valid User user, BindingResult result, ModelMap model) {
 
+        System.out.println("METHOD DI PANGGIL");
         if (result.hasErrors()) {
             return "registration";
         }
         
         userRepo.save(user);
+        
+        System.out.println("DATA DI UPDATE");
 
         model.addAttribute("success", "User " + user.getFirstName() + " " + user.getLastName() + " updated successfully");
         model.addAttribute("loggedinuser", getPrincipal());
