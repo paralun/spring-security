@@ -41,6 +41,18 @@ public class User {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    public User() {
+    }
+
+    public User(String email, String password, String firstName, String lastName, boolean active, Set<Role> roles) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.active = active;
+        this.roles = roles;
+    }
+
     public Long getId() {
         return id;
     }
