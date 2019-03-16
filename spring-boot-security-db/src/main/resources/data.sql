@@ -1,1 +1,1 @@
-REPLACE INTO `role` VALUES (1,'ADMIN');
+REPLACE INTO `t_role` VALUES (1,'ADMIN');
