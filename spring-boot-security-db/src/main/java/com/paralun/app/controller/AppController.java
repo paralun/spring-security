@@ -43,7 +43,7 @@ public class AppController {
             userService.saveUser(user);
             model.addAttribute("successMessage", "User has been registered successfully");
             model.addAttribute("user", new User());
-            return "registration";
+            return "redirect:/login";
         }
     }
 
